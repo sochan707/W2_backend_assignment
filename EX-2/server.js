@@ -20,6 +20,54 @@ const server = http.createServer((req, res) => {
         `);
     }
     // Implement more routes here
+    else if (url === '/about' && method === 'GET') {
+        res.writeHead(302, {'Content-type': 'text/html'});
+        return res.end(`
+            <html>
+                <head><title>About</title></head>
+                <body>
+                    <h1>About page</h1>
+                    <p>About us: at CADT, we love node.js!</p>
+                </body>
+            </html>
+        `)
+    }
+    else if (url === '/contact-us' && method === 'GET') {
+        res.writeHead(302, {'Content-type': 'text/html'});
+        return res.end(`
+            <html>
+                <head><title>About</title></head>
+                <body>
+                    <h1>Contact us</h1>
+                    <p>You can reach us vai email…</p>
+                </body>
+            </html>
+        `)
+    }
+    else if (url === '/products' && method === 'GET') {
+        res.writeHead(302, {'Content-type': 'text/html'});
+        return res.end(`
+            <html>
+                <head><title>About</title></head>
+                <body>
+                    <h1>Product</h1>
+                    <p>Buy one get one…</p>
+                </body>
+            </html>
+        `)
+    }
+    else if (url === '/projects' && method === 'GET') {
+        res.writeHead(302, {'Content-type': 'text/html'});
+        return res.end(`
+            <html>
+                <head><title>About</title></head>
+                <body>
+                    <h1>Project</h1>
+                    <p>Here are our awesome projects</p>
+                </body>
+            </html>
+        `)
+    }
     else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         return res.end('404 Not Found');
