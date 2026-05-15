@@ -1,5 +1,6 @@
 // server.js
 const http = require('http');
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
     const url = req.url;
@@ -25,6 +26,59 @@ const server = http.createServer((req, res) => {
 
     if (url === '/contact' && method === 'POST') {
         // Implement form submission handling
+        const body = [];
+
+        req.on('data', chunk => {
+            body.push(chunk);
+        });
+
+        req.on('end', () => {
+            const parsedData = new URLSearchParams(
+                Buffer.concat(body).toString()
+            );
+
+            const name = parsedData.get('name');
+
+            console.log('Submitted name:', name);
+
+            if (!name || name.trim() === '') {
+                res.writeHead(400, { 'Content-Type': 'text/html' });
+                return res.end(`
+                    <h1>Error</h1>
+                    <p>Name cannot be empty.</p>
+                    <a href="/contact">Go back</a>
+                `);
+            }
+
+            fs.appendFile('submissions.txt', name + '\n', err => {
+                if (err) {
+                    console.error('File write error:', err);
+
+                    res.writeHead(500, { 'Content-Type': 'text/html' });
+                    return res.end(`
+                        <h1>Server error</h1>
+                        <p>Could not save your submission.</p>
+                        <a href="/contact">Try again</a>
+                    `);
+                }
+
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(`
+                    <h1>Thank you, ${name}!</h1>
+                    <p>Submission received.</p>
+                    <a href="/contact">Submit again</a>
+                `);
+            });
+        });
+
+        req.on('error', err => {
+            console.error('Request error:', err);
+
+            res.writeHead(500, { 'Content-Type': 'text/html' });
+            res.end('<h1>Request error</h1>');
+        });
+
+        return;
     }
 
     else {
