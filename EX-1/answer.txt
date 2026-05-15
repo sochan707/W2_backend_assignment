@@ -1,0 +1,15 @@
+Q1 – What error message do you see in the terminal when you access http://localhost:3000? What line of code causes it?
+	TypeError: res.endd is not a function
+
+Q2 – What is the purpose of res.write() and how is it different from res.end()?
+	Used to sends data to the client without ending the response.
+
+Q3 – What do you think will happen if res.end() is not called at all?
+	The server will keep running without ending.
+
+
+Q4 – Why do we use http.createServer() instead of just calling a function directly?
+	Because web server need to keep listen to network request, stay running, handle many requests, and give responses to those requests automatically.
+
+Q5 – How can the server be made more resilient to such errors during development?
+	Use error handling, handle async failures properly, validate inputs, add global error listeners, use tools to automatically restart the server after crashes.
